@@ -1,9 +1,13 @@
 #!/usr/bin/env gracket
 #lang racket/gui
 
+(define title "My task list")
+
 (define frame-main
   (new frame%
-       [label "My task list"]))
+       [min-width 640]
+       [min-height 480]
+       [label title]))
 
 (define group-box-panel-task
   (new group-box-panel%
@@ -21,10 +25,15 @@
        (parent group-box-panel-task)
        (label "Add task")
        (callback (lambda (button event)
-                   (send list-box-task append
-                         (send text-field-new-task get-value))
-                   (send (send text-field-new-task get-editor)
-                         erase)))))
+                   (if (not (equal? (string-normalize-spaces (send text-field-new-task get-value)) ""))
+                       (begin
+                         (send list-box-task append
+                               (send text-field-new-task get-value))
+                         (send (send text-field-new-task get-editor)
+                               erase))
+                       (begin
+                         (send text-field-new-task set-value "")
+                         (message-box title "Task name is mandatory" frame-main)))))))
 
 (define list-box-task
   (new list-box%
