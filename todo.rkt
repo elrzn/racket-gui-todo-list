@@ -25,15 +25,15 @@
        (parent group-box-panel-task)
        (label "Add task")
        (callback (lambda (button event)
-                   (if (not (equal? (string-normalize-spaces (send text-field-new-task get-value)) ""))
-                       (begin
-                         (send list-box-task append
-                               (send text-field-new-task get-value))
-                         (send (send text-field-new-task get-editor)
-                               erase))
-                       (begin
-                         (send text-field-new-task set-value "")
-                         (message-box title "Task name is mandatory" frame-main)))))))
+                   (let ((new-task-value (string-normalize-spaces
+                                          (send text-field-new-task get-value))))
+                     (if (not (equal? new-task-value ""))
+                         (begin
+                           (send list-box-task append new-task-value)
+                           (send (send text-field-new-task get-editor) erase))
+                         (begin
+                           (send text-field-new-task set-value "")
+                           (message-box title "Task name is mandatory" frame-main))))))))
 
 (define list-box-task
   (new list-box%
