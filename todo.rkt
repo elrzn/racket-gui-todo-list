@@ -5,9 +5,9 @@
 
 (define frame-main
   (new frame%
-       [min-width 640]
-       [min-height 480]
-       [label title]))
+       (min-width 640)
+       (min-height 480)
+       (label title)))
 
 (define group-box-panel-task
   (new group-box-panel%
